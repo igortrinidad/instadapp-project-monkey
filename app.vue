@@ -1,8 +1,5 @@
 <template>
-  <Html 
-    :class="[ darkMode ? 'dark' : 'light']" 
-    :data-theme="[ darkMode ? 'dark' : 'light']"
-  >
+  <Html lang="en" :class="[ darkMode ? 'dark' : 'light']">
     <Head>
       <Meta charset="utf-8" />
       <Meta httpEquiv="X-UA-Compatible" content="IE=edge" />
@@ -10,24 +7,10 @@
       <Link rel="icon" type="image/png" href="/mkt/ICON.png" />
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">    </Head>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    </Head>
   
-    <Body 
-      :data-theme="[ darkMode ? 'dark' : 'light']" 
-      class="
-        flex justify-center
-        bg-standart
-        w-screen
-        h-auto
-        relative
-        antialiased
-        overflow-x-hidden
-        scroll-smooth
-        overflow-y-auto
-        max-h-none
-        text-gray-100
-        hide-scrollbar
-      ">
+    <Body class="body-class hide-scrollbar">
       <div class="flex w-screen h-auto min-h-[100vh] max-h-none max-w-[1040px] p-2 lg:p-4 mb-32">
         <NuxtLayout>
           <NuxtPage />
@@ -139,4 +122,18 @@
 
 <style lang="scss">
 
+  .body-class {
+    @apply
+      flex
+      justify-center
+      w-screen
+      h-auto
+      relative
+      antialiased
+      overflow-x-hidden
+      scroll-smooth
+      overflow-y-auto
+      max-h-none;
+  }
+  
 </style>
