@@ -1,0 +1,16 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body, html {
+  font-family: 'Inter', sans-serif;
+}
+
+.bg-standart {
+  @apply bg-gradient-to-b from-cyan-400 to-cyan-600 dark:from-slate-900 dark:to-slate-950 transition-all duration-500 ease-in-out ;
+}
+
+.bg-general {
+  @apply bg-gray-600/20;
+}

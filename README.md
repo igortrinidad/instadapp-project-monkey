@@ -23,13 +23,13 @@ Start the development server on `http://localhost:3000`:
 
 ```bash
 # npm
-npm run dev
+npm run serve
 
 # pnpm
-pnpm run dev
+pnpm run serve
 
 # yarn
-yarn dev
+yarn serve
 ```
 
 ## Production
