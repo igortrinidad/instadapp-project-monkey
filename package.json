@@ -21,6 +21,7 @@
     "@igortrindade/lazyfy": "^2.15.6",
     "@pinia-plugin-persistedstate/nuxt": "^1.1.1",
     "@pinia/nuxt": "^0.4.11",
+    "gpt-tokens": "^1.0.10",
     "mitt": "^3.0.0",
     "pinia": "^2.1.4"
   },
