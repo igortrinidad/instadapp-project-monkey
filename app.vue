@@ -11,11 +11,9 @@
     </Head>
   
     <Body class="body-class hide-scrollbar">
-      <div class="flex w-screen h-auto min-h-[100vh] max-h-none max-w-[1040px] p-2 lg:p-4 mb-32">
-        <NuxtLayout>
-          <NuxtPage />
-        </NuxtLayout>
-      </div>
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
     </Body>
   </Html>
 </template>
@@ -135,5 +133,7 @@
       overflow-y-auto
       max-h-none;
   }
-  
+
+
+
 </style>
