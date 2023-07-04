@@ -23,21 +23,36 @@
         </div>
       </div>
     </div>
-    
+
+    <div class="w-full flex flex-col items-start space-y-4">
+      <label>Inputs</label>
+      
+      <div class="flex flex-col items-start space-y-2" v-for="(variable, index) in variables" :key="variable.key">
+        <label class="block rounded-lg px-2 py-1" :class="[`bg-${ colors[index] }`]">{{ `\{\{ ${ variable.key } \}\}` }}</label>
+        <input 
+          class="input-classes"
+          :class="[`focus:ring-${ colors[index] }`]"
+          type="text"
+          placeholder="Insert the input value"
+          v-model="variable.value"
+        />
+      </div>
+
+    </div>
+
+    <!-- <pre>{{ tokensQuantity }}</pre> -->
+    <!-- <pre>{{ tokensValue }}</pre> -->
+    <!-- <pre>{{ messageContent }}</pre> -->
+
     <div class="w-full flex space-x-4">
       <button 
-        class="btn btn-primary btn-sm" 
+        class="btn btn-primary btn-lg" 
         @click="storeMessage()" 
         :class="{ 'loading': isLoading }"
       >
-        Generate prompt
+        Run prompt
       </button>
     </div>
-
-    <pre>{{ tokensQuantity }}</pre>
-    <pre>{{ tokensValue }}</pre>
-    <pre>{{ variables }}</pre>
-    <pre>{{ messageContent }}</pre>
 
   </div>
 </template>
@@ -45,7 +60,7 @@
 
   import { GPTTokens } from 'gpt-tokens'
   import { StringHelpers } from '@igortrindade/lazyfy'
-  import { promptExample, regexVariablePattern } from '@/src/util/enums'
+  import { promptExample, regexVariablePattern, colors as colorsSource } from '@/src/util/enums'
   import { slugifyVariableName } from '@/src/util/functions'
 
   const route = useRoute()
@@ -57,6 +72,7 @@
 
   const isUpdatingContent = ref(false)
   const messageContent = ref(promptExample)
+  const colors = ref(colorsSource)
   const variables = ref([])
   const showPlaceholder = ref(true)
   const isLoading = ref(false)
@@ -80,7 +96,7 @@
 
   const parseVariables = () => {
     const matches = [...messageContent.value.matchAll(regexVariablePattern)]
-    variables.value = matches.map(match => match[1]).map((v) => slugifyVariableName(v) )
+    variables.value = matches.map(match => match[1]).map((v) => ({ value: null, key: slugifyVariableName(v) }) ).filter((v) => v.key)
   }
 
   const calculateTokens = () => {
@@ -106,7 +122,7 @@
 
   /** This is the css of the input **/
 #prompt-input-container {
-  @apply block border border-gray-400/30 w-full text-lg rounded-lg p-4;
+  @apply block border border-gray-400/30 w-full text-lg rounded-lg p-4 bg-gray-200/10;
 }
 
 .prompt-input-text-group {
@@ -149,6 +165,10 @@
   -moz-user-select: text;
   -ms-user-select: text;
   user-select: text;
+}
+
+.input-classes {
+  @apply block text-lg py-4 px-4 rounded-lg bg-gray-200/10 border border-gray-400/30 focus:outline focus:ring;
 }
 
 </style>
