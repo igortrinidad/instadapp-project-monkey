@@ -6,10 +6,30 @@
       <img src="/mkt/logo_NAME.svg" class="h-8" alt="PromptMonkey logo" />
     </div>
 
-    <button class="btn-default">Login</button>
+    <div class="flex space-x-4 items-center">
+      <ClientOnly>
+        <Switch :value="darkMode" @change="toggleDarkMode()">
+          <Icon v-if="!darkMode" name="material-symbols:wb-sunny-rounded" class="text-2xl" />
+          <Icon v-else name="material-symbols:nightlight-rounded" class="text-2xl" />
+        </Switch>
+      </ClientOnly>
+      <!-- <button class="btn-default">Login</button> -->
+    </div>
   </div>
 </template>
 
+<script setup>
+
+  import Switch from '@/src/components/Switch.vue'
+  import { storeToRefs } from 'pinia'
+
+  const { darkMode } = storeToRefs(useAppSharedStore())
+
+  const toggleDarkMode = () => {
+    useAppSharedStore().toggleDarkMode()
+  }
+
+</script>
 <style lang="scss">
   .default-navbar {
     @apply

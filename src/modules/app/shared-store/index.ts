@@ -7,18 +7,15 @@ export const useAppSharedStore = defineStore('appSharedStore', {
   state: () => ({
     isTransitioning: false,
     darkMode: false,
-    tvMode: false,
+    darkModeChanged: false,
     lastTransitionDirection: 'left',
   }),
 
   actions: {
 
-    toggleDarkMode() {
+    toggleDarkMode(darkModeChanged: boolean = true) {
       this.darkMode = !this.darkMode
-    },
-
-    toggleTvMode() {
-      this.tvMode = !this.tvMode
+      this.darkModeChanged = darkModeChanged
     },
 
     setIsTransitioning(isTransitioning: boolean) {
