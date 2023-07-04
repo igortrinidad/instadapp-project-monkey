@@ -27,4 +27,10 @@ export const colors = [
 ]
 
 
-export const regexVariablePattern = /\{\{\s*([^}]+)\s*\}\}/g;
+export const regexExtractVariablePattern = /\{\{\s*([^}]+)\s*\}\}/g;
+
+export const regexSplitContentKeepingVariablesPattern = /({{[^{}]+}})/g;
+
+export const regexTestVariable = /^{{\s\w+\s}}$/;
+
+export const regexExtractSingleVariable = /{{\s*(.*?)\s*}}/;
