@@ -18,6 +18,8 @@
       </button>
     </div>
 
+    <pre>{{ variables }}</pre>
+
   </div>
 </template>
 
@@ -25,4 +27,8 @@
   import AppHomePromptInput from '@/src/modules/app/home/AppHomePromptInput.vue'
   import AppHomeInputsList from '@/src/modules/app/home/AppHomeInputsList.vue'
   import AppHomePromptPreview from '@/src/modules/app/home/AppHomePromptPreview.vue'
+  import { storeToRefs } from 'pinia'
+
+  const { variables } = storeToRefs(useAppHomeStore())
+
 </script>

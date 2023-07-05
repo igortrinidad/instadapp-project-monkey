@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { promptExample, regexExtractVariablePattern, regexSplitContentKeepingVariablesPattern, regexTestVariable, regexExtractSingleVariable, colors as colorsSource } from '@/src/util/enums'
 import { slugifyVariableName } from '@/src/util/functions'
 import { GPTTokens } from 'gpt-tokens'
-
+import { ArrayHelpers } from '@igortrindade/lazyfy'
 interface VariableInterface {
   key: string
   value: string | null
@@ -23,8 +23,18 @@ export const useAppHomeStore = defineStore('appHomeStore', {
 
   getters: {
     getPromptContent: (state) => {
-      useAppHomeStore().setVariables()
       return state.promptContent
+    },
+    getVariablesIncludedInPrompt: (state) => {
+      const matches = [...state.promptContent.matchAll(regexExtractVariablePattern)]
+      return matches
+        .map(match => slugifyVariableName(match[1]))
+        .filter((v) => v)
+    },
+
+    getVariables: (state) => {
+      return state.variables
+        .filter((v) => useAppHomeStore().getVariablesIncludedInPrompt.includes(v.key))
     },
 
     getPrompContentHighlightingVariables: (state) => {
@@ -33,7 +43,7 @@ export const useAppHomeStore = defineStore('appHomeStore', {
         .map((strSplitted) => {
 
           if (regexTestVariable.test(strSplitted) && strSplitted.match(regexExtractSingleVariable)) {
-            const variableName = strSplitted.match(regexExtractSingleVariable)[1]
+            const variableName = slugifyVariableName(strSplitted.match(regexExtractSingleVariable)[1])
             const variableValue = useAppHomeStore().variables.find((v) => v.key === slugifyVariableName(variableName)) as VariableInterface | undefined
             if(!variableValue) return 'Variable not found'
             const value = variableValue.value || `Add a value for ${variableName}`
@@ -49,28 +59,35 @@ export const useAppHomeStore = defineStore('appHomeStore', {
 
     setPromptContent(promptContent: string) {
       this.promptContent = promptContent
-      this.setVariables()
     },
     
     setVariables() {
       const matches = [...this.promptContent.matchAll(regexExtractVariablePattern)]
-      this.variables = matches
+      const variablesFoundedOnContent = matches
         .map(match => match[1])
-        .map((v, index) => ({ value: null, key: slugifyVariableName(v), color: colorsSource[index] }) )
-        .filter((v) => v.key)
+        .filter((v) => v)
+      variablesFoundedOnContent.map((variableFounded) => {
+        const variableAlreadyAdded = this.variables.find((v) => v.key === slugifyVariableName(variableFounded))
+        if(!variableAlreadyAdded) {
+          this.variables.push({ value: null, key: slugifyVariableName(variableFounded), color: colorsSource[this.variables.length] })
+        }
+      })
+      this.calculateTokens()
     },
 
     calculateTokens() {
 
-      const gptTokens = new GPTTokens({
-        model   : 'gpt-3.5-turbo',
-        messages: [
-          { 'role': 'user', 'content': this.promptContent },
-        ],
-      })
-  
-      this.promptTokens = gptTokens.usedTokens
-      this.promptUSD = gptTokens.usedUSD
+      setTimeout(() => {
+        const gptTokens = new GPTTokens({
+          model   : 'gpt-3.5-turbo',
+          messages: [
+            { 'role': 'user', 'content': this.promptContent },
+          ],
+        })
+    
+        this.promptTokens = gptTokens.usedTokens
+        this.promptUSD = gptTokens.usedUSD
+      }, 1000)
     }
 
   }

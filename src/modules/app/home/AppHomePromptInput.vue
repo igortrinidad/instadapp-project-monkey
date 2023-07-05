@@ -5,9 +5,8 @@
       <div id="prompt-input-container" class="group">
         <div 
           class="relative" 
-          @click="onInput()" 
           @focus.capture="showPlaceholder = false" 
-          @blur.capture="calculateTokens()"
+          @blur.capture="setVariables()"
         >
           <div 
             class="prompt-input-content" 
@@ -35,14 +34,15 @@
 
   onMounted(() => {
     promptInputRef.value.innerHTML = getPromptContent.value
+    useAppHomeStore().setVariables()
   })
 
   const onInput = () => {
     useAppHomeStore().setPromptContent(promptInputRef.value.innerText)
   }
 
-  const calculateTokens = () => {
-    useAppHomeStore().calculateTokens()
+  const setVariables = () => {
+    useAppHomeStore().setVariables()
   }
   
 </script>
