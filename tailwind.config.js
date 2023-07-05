@@ -45,6 +45,9 @@ module.exports = {
     'focus:ring-purple-500',
     'focus:ring-fuchsia-500',
     'focus:ring-pink-500',
+    'rounded-md',
+    'px-2',
+    'py-1'
   ]
   
 }
