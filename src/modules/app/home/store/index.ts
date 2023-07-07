@@ -87,10 +87,10 @@ export const useAppHomeStore = defineStore('appHomeStore', {
     },
 
     async generateChatGptResponse() {
-      const config = useRuntimeConfig()
-      const openAiApiKey = await encrypt(useAppHomeStore().openAiApiKey, config.public.ENCRYPTION_KEY)
-      const prompt = useAppHomeStore().getPrompContentWithVariablesValues(false)
       try {
+        const config = useRuntimeConfig()
+        const openAiApiKey = await encrypt(useAppHomeStore().openAiApiKey, config.public.ENCRYPTION_KEY)
+        const prompt = useAppHomeStore().getPrompContentWithVariablesValues(false)
         const { data } = await useFetch('/api/chat-gpt/generate', { method: 'POST', body: { prompt, openAiApiKey } })
         this.addPromptHistoryItem({ prompt, response: data.value.response })
       } catch (error) {

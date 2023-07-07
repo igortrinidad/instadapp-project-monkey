@@ -18,7 +18,7 @@
         @click="runPrompt()"
         :disabled="getInputsHasEmptyValue"
       >
-        <Icon v-if="isLoading" name="svg-spinners:90-ring-with-bg" />
+        <Icon v-show="isLoading" name="svg-spinners:90-ring-with-bg" />
         Run prompt
       </button>
     </div>
