@@ -21,8 +21,10 @@
     "@igortrindade/lazyfy": "^2.15.6",
     "@pinia-plugin-persistedstate/nuxt": "^1.1.1",
     "@pinia/nuxt": "^0.4.11",
+    "crypto": "^1.0.1",
     "gpt-tokens": "^1.0.10",
     "mitt": "^3.0.0",
+    "openai": "^3.3.0",
     "pinia": "^2.1.4"
   },
   "overrides": {

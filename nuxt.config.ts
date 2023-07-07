@@ -2,8 +2,15 @@ import { resolve } from 'path'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  
   devtools: { enabled: true },
   
+  runtimeConfig: {
+    public: {
+      ENCRYPTION_KEY: process.env.NUXT_PUBLIC_ENCRYPTION_KEY,
+    }
+  },
+
   modules: [
     '@nuxtjs/tailwindcss',
     'nuxt-icon',

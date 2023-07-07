@@ -5,9 +5,6 @@ export const promptExample = `Given the following fruit, output the closest colo
 Fruit:
 {{ fruit }}
 
-Car:
-{{ car }}
-
 Color hex string:
 `;
 

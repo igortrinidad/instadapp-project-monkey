@@ -2,11 +2,19 @@ import { defineStore } from 'pinia'
 import { promptExample, regexExtractVariablePattern, regexSplitContentKeepingVariablesPattern, regexTestVariable, regexExtractSingleVariable, colors as colorsSource } from '@/src/util/enums'
 import { slugifyVariableName } from '@/src/util/functions'
 import { GPTTokens } from 'gpt-tokens'
-import { ArrayHelpers } from '@igortrindade/lazyfy'
+import { encrypt } from '@/src/util/encryptClient'
+import { StringHelpers } from '@igortrindade/lazyfy'
 interface VariableInterface {
   key: string
   value: string | null
   color: string
+}
+
+interface HistoryItemInterface {
+  id: string
+  prompt: string
+  response: string
+  createdAt: Date
 }
 
 export const useAppHomeStore = defineStore('appHomeStore', {
@@ -18,7 +26,8 @@ export const useAppHomeStore = defineStore('appHomeStore', {
     promptTokens: 0,
     promptUSD: 0,
     variables: [] as Array<VariableInterface>,
-    history: []
+    history: [] as Array<HistoryItemInterface>,
+    openAiApiKey: '',
   }),
 
   getters: {
@@ -37,17 +46,21 @@ export const useAppHomeStore = defineStore('appHomeStore', {
         .filter((v) => useAppHomeStore().getVariablesIncludedInPrompt.includes(v.key))
     },
 
-    getPrompContentHighlightingVariables: (state) => {
+    getInputsHasEmptyValue: (state) => {
+      return useAppHomeStore().getVariables
+        .filter((v) => !v.value).length > 0
+    },
+
+    getPrompContentWithVariablesValues: (state) => (hightlightInputValues: boolean) => {
       return state.promptContent
       .split(regexSplitContentKeepingVariablesPattern)
-        .map((strSplitted) => {
-
+        .map((strSplitted: string) => {
           if (regexTestVariable.test(strSplitted) && strSplitted.match(regexExtractSingleVariable)) {
             const variableName = slugifyVariableName(strSplitted.match(regexExtractSingleVariable)[1])
-            const variableValue = useAppHomeStore().variables.find((v) => v.key === slugifyVariableName(variableName)) as VariableInterface | undefined
-            if(!variableValue) return 'Variable not found'
-            const value = variableValue.value || `Add a value for ${variableName}`
-            return `<span class="bg-${ variableValue.color} rounded-md px-2 py-1">${value}</span>`
+            const variable = useAppHomeStore().variables.find((v) => v.key === slugifyVariableName(variableName)) as VariableInterface | undefined
+            if(!variable) return hightlightInputValues ? 'Variable not found' : ''
+            const value = variable.value || `Add a value for ${variableName}`
+            return hightlightInputValues ? `<span class="bg-${ variable.color} rounded-md px-2 py-1">${value}</span>` : value
           }
           return strSplitted
         })
@@ -88,6 +101,24 @@ export const useAppHomeStore = defineStore('appHomeStore', {
         this.promptTokens = gptTokens.usedTokens
         this.promptUSD = gptTokens.usedUSD
       }, 1000)
+    },
+
+
+    async generateChatGptResponse() {
+      const config = useRuntimeConfig()
+      const openAiApiKey = await encrypt(useAppHomeStore().openAiApiKey, config.public.ENCRYPTION_KEY)
+      const prompt = useAppHomeStore().getPrompContentWithVariablesValues(false)
+      try {
+        const { data } = await useFetch('/api/chat-gpt/generate', { method: 'POST', body: { prompt, openAiApiKey } })
+        this.addPromptHistoryItem({ prompt, response: data.value.response })
+      } catch (error) {
+        console.log(error)
+        throw error
+      }
+    },
+
+    addPromptHistoryItem(item: { prompt: string, response: string}) {
+      this.history.unshift({ ...item, id: StringHelpers.randomString(12), createdAt: new Date() })
     }
 
   }
