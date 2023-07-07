@@ -3,7 +3,6 @@
     <Head>
       <Meta charset="utf-8" />
       <Meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-      <Meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
       <Link rel="icon" type="image/png" href="/mkt/ICON.png" />
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
