@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { promptExample, regexExtractVariablePattern, regexSplitContentKeepingVariablesPattern, regexTestVariable, regexExtractSingleVariable, colors as colorsSource } from '@/src/util/enums'
 import { slugifyVariableName } from '@/src/util/functions'
-import { GPTTokens } from 'gpt-tokens'
 import { encrypt } from '@/src/util/encryptClient'
 import { StringHelpers } from '@igortrindade/lazyfy'
 interface VariableInterface {
@@ -85,24 +84,7 @@ export const useAppHomeStore = defineStore('appHomeStore', {
           this.variables.push({ value: null, key: slugifyVariableName(variableFounded), color: colorsSource[this.variables.length] })
         }
       })
-      this.calculateTokens()
     },
-
-    calculateTokens() {
-
-      setTimeout(() => {
-        const gptTokens = new GPTTokens({
-          model   : 'gpt-3.5-turbo',
-          messages: [
-            { 'role': 'user', 'content': this.promptContent },
-          ],
-        })
-    
-        this.promptTokens = gptTokens.usedTokens
-        this.promptUSD = gptTokens.usedUSD
-      }, 1000)
-    },
-
 
     async generateChatGptResponse() {
       const config = useRuntimeConfig()
