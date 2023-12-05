@@ -7,10 +7,13 @@
     </div>
 
     <div class="flex space-x-4 items-center">
+      <NuxtLink to="https://github.com/igortrinidad/project-monkey-prompt-generator" target="_blank">
+        <Icon name="mdi:github" class="text-2xl" />
+      </NuxtLink>
       <ClientOnly>
         <Switch :value="darkMode" @change="toggleDarkMode()">
-          <Icon v-if="!darkMode" name="material-symbols:wb-sunny-rounded" class="text-2xl" />
-          <Icon v-else name="material-symbols:nightlight-rounded" class="text-2xl" />
+          <Icon v-if="!darkMode" name="material-symbols:wb-sunny-rounded" class="text-xl" />
+          <Icon v-else name="material-symbols:nightlight-rounded" class="text-xl" />
         </Switch>
       </ClientOnly>
       <!-- <button class="btn-default">Login</button> -->
@@ -47,6 +50,7 @@
       dark:bg-transparent
       flex justify-between
       p-4
+      px-6
     ;
 }
 </style>

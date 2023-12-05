@@ -1,6 +1,6 @@
 <template>
   <button 
-    class="w-14 h-6 rounded-full bg-white flex items-center transition duration-300 focus:outline-none shadow"
+    class="w-10 h-4 rounded-full bg-white flex items-center transition duration-300 focus:outline-none shadow"
     @click="toggle()"
   >
     <div
@@ -8,7 +8,7 @@
         'bg-gray-700 translate-x-full': value,
         'bg-yellow-500 -translate-x-2': !value,
       }"
-      class="w-8 h-8 relative rounded-full transition duration-500 transform p-1 text-white flex items-center justify-center"
+      class="w-6 h-6 relative rounded-full transition duration-500 transform p-1 text-white flex items-center justify-center"
     >
       <slot />
     </div>
