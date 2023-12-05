@@ -1,5 +1,5 @@
 <template>
-  <button class="btn" @click="copyToClipboard">
+  <button class="btn hover:text-violet-500" @click="copyToClipboard">
     <Icon name="material-symbols:content-copy-outline-rounded"></Icon>
   </button>
 </template>

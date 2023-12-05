@@ -26,7 +26,19 @@
 <style lang="scss">
 
   .input-classes {
-    @apply block text-lg py-2 px-3 rounded-lg bg-gray-200/10 border border-gray-400/30 focus:outline focus:ring;
+    @apply
+    block
+    text-lg
+    py-2
+    px-3
+    rounded-lg
+    bg-gray-200/10
+    border
+    border-gray-400/30
+    focus:outline
+    focus:ring
+    hover:border-violet-500
+    ;
   }
 
 </style>
