@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
 
   setResponseHeaders(event, {
     "Access-Control-Allow-Methods": "POST",
-    "Access-Control-Allow-Origin": "https://127.0.0.1:3000,https://project-monkey-prompt-generator.vercel.app/",
+    "Access-Control-Allow-Origin": "https://project-monkey-prompt-generator.vercel.app",
     'Access-Control-Allow-Credentials': 'true',
     "Access-Control-Allow-Headers": '*',
     "Access-Control-Expose-Headers": '*'
