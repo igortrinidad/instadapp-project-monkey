@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { promptExample, regexExtractVariablePattern, regexSplitContentKeepingVariablesPattern, regexTestVariable, regexExtractSingleVariable, colors as colorsSource } from '@/src/util/enums'
 import { slugifyVariableName } from '@/src/util/functions'
-import { encrypt } from '@/src/util/encryptClient'
 import { StringHelpers } from '@igortrindade/lazyfy'
 interface VariableInterface {
   key: string
@@ -88,10 +87,8 @@ export const useAppHomeStore = defineStore('appHomeStore', {
 
     async generateChatGptResponse() {
       try {
-        const config = useRuntimeConfig()
-        const openAiApiKey = await encrypt(useAppHomeStore().openAiApiKey, config.public.ENCRYPTION_KEY)
         const prompt = useAppHomeStore().getPrompContentWithVariablesValues(false)
-        const { data } = await useFetch('/api/chat-gpt/generate', { method: 'POST', body: { prompt, openAiApiKey } })
+        const { data } = await useFetch('/api/chat-gpt/generate', { method: 'POST', body: { prompt } })
         this.addPromptHistoryItem({ prompt, response: data.value.response })
       } catch (error) {
         console.log(error)

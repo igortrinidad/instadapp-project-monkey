@@ -1,15 +1,10 @@
 import { Configuration, OpenAIApi } from "openai";
-import { decrypt } from '@/src/util/encryptServer'
 
 export default defineEventHandler( async (event) => {
   
-  const config = useRuntimeConfig()
+  const { prompt = ''} = await readBody(event)
 
-  const { prompt = '', openAiApiKey = '' } = await readBody(event)
-
-  const openAiApiKeyDecrypted = await decrypt(openAiApiKey, config.public.ENCRYPTION_KEY)
-
-  const response = await getChatGptResponse(prompt, openAiApiKeyDecrypted)
+  const response = await getChatGptResponse(prompt)
 
   return {
     response,
@@ -18,9 +13,12 @@ export default defineEventHandler( async (event) => {
 })
 
 
-const getChatGptResponse = async (prompt: string, openAiApiKey: string) => {
+const getChatGptResponse = async (prompt: string) => {
 
-  const openai = new OpenAIApi(new Configuration({ apiKey: openAiApiKey }))
+  const config = useRuntimeConfig()
+  const OPEN_AI_KEY = config.OPEN_AI_KEY
+
+  const openai = new OpenAIApi(new Configuration({ apiKey: OPEN_AI_KEY }))
 
   return openai.createChatCompletion({
     model: 'gpt-3.5-turbo',

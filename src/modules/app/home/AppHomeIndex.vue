@@ -10,8 +10,6 @@
       </div>
     </ClientOnly>
     
-    <AppHomeOpenAiApiInput />
-
     <div class="w-full flex space-x-4">
       <button 
         class="btn btn-primary btn-lg"
