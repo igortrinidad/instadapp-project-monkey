@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   
   runtimeConfig: {
+    OPEN_AI_KEY: process.env.OPEN_AI_KEY,
     public: {
       ENCRYPTION_KEY: process.env.NUXT_PUBLIC_ENCRYPTION_KEY,
     }
