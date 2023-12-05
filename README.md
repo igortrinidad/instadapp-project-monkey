@@ -20,13 +20,14 @@ To run the ChatGPT Prompt Generator locally, follow these steps:
 1. Clone the repository:
 
 ```shell
-git clone https://github.com/igortrinidad/instadapp-project-monkey
+git clone https://github.com/igortrinidad/project-monkey-prompt-generator
 ```
 
 2. Install the dependencies:
 
 ```shell
-cd instadapp-project-monkey
+cd project-monkey-prompt-generator
+cp .env.example .env # Add your own OpenAi api key
 npm install
 npm run serve
 ```
